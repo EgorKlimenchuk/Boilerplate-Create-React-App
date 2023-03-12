@@ -16,7 +16,7 @@
     "sourceType": "module",
     "ecmaVersion": 2018,
     "project": "./tsconfig.json",
-    "tsconfigRootDir": "./",
+    "tsconfigRootDir": "./client",
     "ecmaFeatures": {
       "jsx": true,
       "modules": true

@@ -1,8 +1,9 @@
 import express from 'express';
 import { resolve } from 'path';
+import { graphqlHTTP } from 'express-graphql';
 import cors from 'cors';
-import router from './routes/index.js';
-import { Html } from '../src/html.js';
+import { schema } from './schema/index.js';
+import { root } from './root/index.js';
 
 const server = express();
 const __dirname = process.cwd();
@@ -12,20 +13,19 @@ const middleware = [
   express.json(),
   cors({
     credentials: true,
-    origin: 'http://localhost:3000'
-  })
+    origin: 'http://localhost:3000',
+  }),
 ];
-middleware.forEach(it => server.use(it));
+middleware.forEach((it) => server.use(it));
 
-// server.use(express.json());
-// server.use(
-//   cors({
-//     credentials: true,
-//     origin: 'http://localhost:3000'
-//   })
-// );
-
-server.use('/api', router);
+server.use(
+  '/graphql',
+  graphqlHTTP({
+    graphiql: true,
+    schema,
+    rootValue: root,
+  })
+);
 
 const start = () => {
   try {
@@ -34,4 +34,5 @@ const start = () => {
     console.log(e);
   }
 };
+
 start();
